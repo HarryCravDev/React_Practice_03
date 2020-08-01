@@ -13,40 +13,52 @@ class App extends React.Component {
   };
 
   // Get Pokemon URL Array
-  getPokemon = async (num) => {
-    const response = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon?limit=${num}`,
-      {
-        params: {},
-      }
-    );
+  getPokemon = async (input) => {
+    if (typeof input === "number") {
+      const response = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon?limit=${input}`,
+        {
+          params: {},
+        }
+      );
 
-    await this.loadingPokemon(response.data.results);
+      await this.loadingPokemon(response.data.results);
+    } else {
+      const response = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon/${input}`,
+        {
+          params: {},
+        }
+      );
+      console.log(response);
+      this.setState({ pokemon: [response] });
+      // await this.loadingPokemon(response.data.results);
+    }
   };
 
   // Get Pokemon and Update State
   loadingPokemon = async (data) => {
-    let pokemon = await Promise.all(
-      data.map(async (item) => {
-        const res = await axios.get(item.url);
-        return res;
-      })
-    );
+    if (Array.isArray(data)) {
+      let pokemon = await Promise.all(
+        data.map(async (item) => {
+          const res = await axios.get(item.url);
+          return res;
+        })
+      );
 
-    this.setState({ pokemon: pokemon });
+      this.setState({ pokemon: pokemon });
+    }
   };
 
   // Submit total number of Pokemon
   submitNumber = (number) => {
     const num = parseInt(number);
-    console.log(typeof num);
     this.setState({ number: num });
     this.getPokemon(num);
   };
 
   // Submit name of Pokemon
   submitName = (name) => {
-    console.log(name);
     this.setState({ name: name });
     this.getPokemon(name);
   };
@@ -54,13 +66,13 @@ class App extends React.Component {
   render() {
     return (
       <div className="game-container">
-        {this.state.pokemon.length > 0 ? (
-          <CardContainer cards={this.state.pokemon} />
-        ) : null}
         <InputTotal
           submitNumber={this.submitNumber}
           submitName={this.submitName}
         />
+        {this.state.pokemon.length > 0 ? (
+          <CardContainer cards={this.state.pokemon} />
+        ) : null}
       </div>
     );
   }

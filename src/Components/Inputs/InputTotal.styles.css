@@ -1,0 +1,22 @@
+.input-container {
+  padding: 15px !important;
+  width: 650px !important;
+  margin: 0 5px !important;
+}
+
+.input-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-parent {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.input-button {
+  margin-top: 5px !important;
+}
