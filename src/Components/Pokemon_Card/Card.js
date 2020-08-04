@@ -2,7 +2,6 @@ import React from "react";
 import "./Card.styles.css";
 
 const Card = ({ card }) => {
-  console.log(card);
   return (
     <div className="card">
       <h1 className="card-title">{card.data.species.name}</h1>
