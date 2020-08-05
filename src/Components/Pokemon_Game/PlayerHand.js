@@ -1,9 +1,12 @@
 import React from "react";
+import Card from "../Pokemon_Card/Card";
 
-const PlayerHand = () => {
+const PlayerHand = ({ pokemon }) => {
   return (
     <div>
-      <h1>Player Hand</h1>
+      {pokemon.map((card) => (
+        <Card card={card} />
+      ))}
     </div>
   );
 };
